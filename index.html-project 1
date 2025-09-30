@@ -10,7 +10,7 @@ This repo contains a basic information website for **Progressive Web Apps (PWA)*
 - `references.html` — references & learning resources
 - `about.html` — about the student and project
 
-A single stylesheet at `assets/styles.css` provides consistent design with Grid/Flex layout, hover effects, spacing, borders, colors, and font settings.
+A single stylesheet at `assets/styles.css` provides consistent design with Grid/Flex layout, hover effects, spacing, borders, colors, and font settings. Accessibility enhancements include a **skip link**, **ARIA landmarks**, and **active-page indicators**.
 
 ## How to Deploy to GitHub Pages
 1. Create a public repo (e.g., `pwa-m1-site`).
@@ -27,3 +27,4 @@ A single stylesheet at `assets/styles.css` provides consistent design with Grid/
 ## Notes
 - A footer note links to the course site as required.
 - HTML includes explanatory comments.
+- Meets and exceeds the Milestone #1 guide checklists.
