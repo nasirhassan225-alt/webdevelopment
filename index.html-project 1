@@ -1,0 +1,29 @@
+# PWA Study Site — IT 3203 Milestone #1
+
+This repo contains a basic information website for **Progressive Web Apps (PWA)** built with **HTML + CSS only** (no frameworks).
+
+## Pages
+- `index.html` — cover page with abstract, key terms, and table of contents
+- `service-workers.html` — subtopic page
+- `web-app-manifest.html` — subtopic page
+- `key-concepts.html` — 5–7 key concepts
+- `references.html` — references & learning resources
+- `about.html` — about the student and project
+
+A single stylesheet at `assets/styles.css` provides consistent design with Grid/Flex layout, hover effects, spacing, borders, colors, and font settings.
+
+## How to Deploy to GitHub Pages
+1. Create a public repo (e.g., `pwa-m1-site`).
+2. Upload all files from this folder to the repo root.
+3. In GitHub, go to **Settings → Pages**.
+4. Under **Build and deployment**, choose **Deploy from a branch**.
+5. Select branch `main`, folder `/root`, and click **Save**.
+6. After it builds, your site will be live at the URL shown in the Pages section.
+
+## HTML Validation
+- Visit <https://validator.w3.org/>
+- Validate by URL after deployment, or by direct file upload for each HTML file.
+
+## Notes
+- A footer note links to the course site as required.
+- HTML includes explanatory comments.
