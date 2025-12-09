@@ -518,3 +518,188 @@ body{margin:0;font-family:var(--font);color:var(--text);line-height:1.6;backgrou
   <script src="assets/nav.js" defer></script>
 </body>
 </html>
+/* IT 3203 – Milestone 3 (single CSS for all pages) */
+
+/* Reset + mobile-first base */
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:#18202a;background:#fff}
+img,svg,video{max-width:100%;height:auto;display:block}
+a{color:#0a66c2;text-decoration:none}
+a:hover,:focus-visible{text-decoration:underline}
+:focus-visible{outline:3px solid #ffb703;outline-offset:2px}
+
+:root{
+  --brand:#0a66c2;--text:#18202a;--muted:#6b7280;--bg:#fff;--surface:#f6f8fa;--border:#e5e7eb;
+}
+
+/* Layout helpers */
+.container{width:min(1100px,92vw);margin-inline:auto}
+.stack>*+*{margin-top:1rem}
+.grid{display:grid;gap:1rem}
+.grid-2{grid-template-columns:1fr}
+@media (min-width:768px){.grid-2{grid-template-columns:1fr 1fr}}
+
+/* Header + responsive nav */
+.site-header{position:sticky;top:0;z-index:1000;background:#fff;border-bottom:1px solid var(--border)}
+.brand-row{display:flex;align-items:center;justify-content:space-between;padding:.75rem 0}
+.brand{font-weight:700;font-size:1.125rem;color:var(--text)}
+.nav-toggle{appearance:none;border:1px solid var(--border);background:var(--surface);padding:.55rem .7rem;border-radius:.5rem;cursor:pointer}
+.nav-toggle .bar{display:block;width:22px;height:2px;background:var(--text);margin:4px 0}
+
+.site-nav{display:none;padding-bottom:.75rem}
+.site-nav.is-open{display:block}
+.nav-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.nav-list a{display:block;padding:.6rem .4rem;border-radius:.5rem;color:var(--text)}
+.nav-list a[aria-current="page"]{background:var(--surface);font-weight:600}
+@media (min-width:768px){
+  .nav-toggle{display:none}
+  .site-nav{display:block!important;padding-bottom:0}
+  .nav-list{flex-direction:row;gap:.5rem}
+}
+
+main{padding:1rem 0 2rem}
+h1,h2,h3{line-height:1.25}
+.lede{color:var(--muted)}
+
+/* Responsive images + tables */
+.responsive-img{width:100%;height:auto;border-radius:.5rem}
+.figure{margin:0}
+.caption{color:var(--muted);font-size:.9rem;margin-top:.35rem}
+
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--border);border-radius:.5rem;background:#fff}
+table{border-collapse:collapse;width:100%;min-width:640px}
+th,td{padding:.65rem .75rem;border-bottom:1px solid var(--border);text-align:left}
+thead th{position:sticky;top:0;background:#f3f4f6}
+
+/* Quiz form */
+.form{display:grid;gap:1rem}
+fieldset{border:1px solid var(--border);border-radius:.5rem;padding:1rem}
+legend{padding:0 .35rem;font-weight:600}
+label{display:block}
+.control{display:flex;align-items:center;gap:.5rem;padding:.35rem 0}
+input[type="text"],select,textarea{width:100%;padding:.65rem .75rem;border:1px solid var(--border);border-radius:.5rem;font:inherit}
+button,.btn{display:inline-block;padding:.7rem 1rem;border-radius:.6rem;border:1px solid var(--brand);background:var(--brand);color:#fff;cursor:pointer;min-height:44px}
+button:disabled{opacity:.6;cursor:not-allowed}
+
+/* Footer */
+.site-footer{border-top:1px solid var(--border);padding:1.25rem 0;color:var(--muted)}
+
+/* Wider layout tweaks */
+@media (min-width:1024px){
+  .hero{display:grid;grid-template-columns:3fr 2fr;gap:2rem;align-items:center}
+}/* IT 3203 – Milestone 3 (single JS for all pages) */
+document.addEventListener('DOMContentLoaded', () => {
+  // Mobile nav toggle with ARIA
+  const toggle = document.querySelector('.nav-toggle');
+  const nav = document.querySelector('.site-nav');
+  if (toggle && nav) {
+    toggle.addEventListener('click', () => {
+      const open = toggle.getAttribute('aria-expanded') === 'true';
+      toggle.setAttribute('aria-expanded', String(!open));
+      nav.classList.toggle('is-open', !open);
+    });
+    nav.addEventListener('click', e => {
+      if (e.target.closest('a')) {
+        toggle.setAttribute('aria-expanded', 'false');
+        nav.classList.remove('is-open');
+      }
+    });
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') {
+        toggle.setAttribute('aria-expanded', 'false');
+        nav.classList.remove('is-open');
+      }
+    });
+  }
+
+  // Optional quiz scoring (if present)
+  const form = document.getElementById('quiz-form');
+  const resultBox = document.getElementById('quiz-result');
+  if (form && resultBox) {
+    const quizKey = { q1: 'b', q2: 'c', q3: 'true' }; // edit answers for your quiz
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      let score = 0, total = Object.keys(quizKey).length;
+      for (const [name, correct] of Object.entries(quizKey)) {
+        const els = form.elements[name];
+        if (!els) continue;
+        if (els instanceof RadioNodeList) {
+          if (els.value === correct) score++;
+        } else if (els.type === 'checkbox') {
+          if (String(els.checked) === correct) score++;
+        } else {
+          if (els.value === correct) score++;
+        }
+      }
+      resultBox.innerHTML = `<strong>Your score:</strong> ${score} / ${total}`;
+      resultBox.setAttribute('aria-live','polite');
+      resultBox.focus?.();
+    });
+  }
+});
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="/assets/style.css">
+<header class="site-header">
+  <div class="container brand-row">
+    <a class="brand" href="index.html">Your Site Title</a>
+    <button class="nav-toggle" aria-label="Open site menu" aria-expanded="false">
+      <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+    </button>
+  </div>
+  <nav class="site-nav" id="site-menu">
+    <div class="container">
+      <ul class="nav-list" role="list">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="concepts.html">Key Concepts</a></li>
+        <li><a href="content-1.html">Topic Page 1</a></li>
+        <li><a href="content-2.html">Topic Page 2</a></li>
+        <li><a href="resources.html">References</a></li>
+        <li><a href="about.html">About/Author</a></li>
+        <li><a href="quiz.html">Quiz</a></li>
+      </ul>
+    </div>
+  </nav>
+</header>
+<figure class="figure">
+  <img src="images/example.jpg" class="responsive-img" alt="Describe the image">
+  <figcaption class="caption">Helpful caption.</figcaption>
+</figure>
+
+<div class="table-wrap" role="region" aria-label="Data table">
+  <table>
+    <thead><tr><th>Year</th><th>Value</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>2023</td><td>42</td><td>Baseline</td></tr>
+      <tr><td>2024</td><td>57</td><td>Projected</td></tr>
+    </tbody>
+  </table>
+</div>
+<main class="container stack">
+  <h1>Knowledge Check</h1>
+  <p class="lede">Short quiz to reinforce key points.</p>
+
+  <form id="quiz-form" class="form">
+    <fieldset>
+      <legend>1) Which option is correct?</legend>
+      <label class="control"><input type="radio" name="q1" value="a" required> Option A</label>
+      <label class="control"><input type="radio" name="q1" value="b"> Option B</label>
+      <label class="control"><input type="radio" name="q1" value="c"> Option C</label>
+    </fieldset>
+
+    <fieldset>
+      <legend>2) Choose the best answer</legend>
+      <label class="control"><input type="radio" name="q2" value="a" required> Alpha</label>
+      <label class="control"><input type="radio" name="q2" value="b"> Beta</label>
+      <label class="control"><input type="radio" name="q2" value="c"> Gamma</label>
+    </fieldset>
+
+    <fieldset>
+      <legend>3) True/False</legend>
+      <label class="control"><input id="q3" type="checkbox" name="q3"> This statement is true.</label>
+    </fieldset>
+
+    <button type="submit" class="btn">Submit Quiz</button>
+    <p id="quiz-result" tabindex="-1" class="lede" style="margin-top:.5rem;"></p>
+  </form>
+</main>
